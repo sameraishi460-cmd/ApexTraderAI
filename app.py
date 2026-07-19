@@ -3,19 +3,32 @@ from market import get_btc_price
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
+def get_signal(price):
+    if price > 100000:
+        return "BUY 🟢"
+    elif price < 90000:
+        return "SELL 🔴"
+    else:
+        return "WAITING 🟡"
+
+
 @app.route("/status")
 def status():
+
     price = get_btc_price()
+
+    signal = get_signal(price)
 
     return jsonify({
         "bot": "ONLINE",
         "price": price,
-        "signal": "WAITING"
+        "signal": signal
     })
 
 
