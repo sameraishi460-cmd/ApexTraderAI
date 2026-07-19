@@ -15,7 +15,13 @@ def status():
 
     price = get_btc_price()
 
-    # قيم مؤقتة للتحليل (سنربطها بالبيانات الحقيقية لاحقاً)
+    if price is None:
+        return jsonify({
+            "bot": "ONLINE",
+            "price": 0,
+            "signal": "WAIT"
+        })
+
     ema_fast = price * 1.001
     ema_slow = price
 
