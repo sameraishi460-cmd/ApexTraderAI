@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify
 from market import get_btc_price
+from strategy import calculate_signal
 
 app = Flask(__name__)
 
@@ -9,21 +10,22 @@ def home():
     return render_template("index.html")
 
 
-def get_signal(price):
-    if price > 100000:
-        return "BUY 🟢"
-    elif price < 90000:
-        return "SELL 🔴"
-    else:
-        return "WAITING 🟡"
-
-
 @app.route("/status")
 def status():
 
     price = get_btc_price()
 
-    signal = get_signal(price)
+    # قيم مؤقتة للتحليل (سنربطها بالبيانات الحقيقية لاحقاً)
+    ema_fast = price * 1.001
+    ema_slow = price
+
+    rsi = 50
+
+    signal = calculate_signal(
+        ema_fast,
+        ema_slow,
+        rsi
+    )
 
     return jsonify({
         "bot": "ONLINE",
