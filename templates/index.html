@@ -8,40 +8,47 @@
 
 <style>
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0f172a;
-    color: white;
+    margin:0;
+    font-family:Arial;
+    background:#0f172a;
+    color:white;
 }
 
 .header {
-    background: #111827;
-    padding: 20px;
-    text-align: center;
-    font-size: 28px;
-    font-weight: bold;
+    background:#111827;
+    padding:20px;
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
 }
 
 .card {
-    background: #1e293b;
-    margin: 20px;
-    padding: 20px;
-    border-radius: 15px;
+    background:#1e293b;
+    margin:20px;
+    padding:20px;
+    border-radius:15px;
 }
 
 .status {
-    color: #22c55e;
-    font-size: 20px;
+    color:#22c55e;
+    font-size:20px;
+}
+
+.price {
+    font-size:25px;
+    color:#38bdf8;
+}
+
+.signal {
+    font-size:22px;
 }
 
 button {
-    padding: 12px 20px;
-    margin: 5px;
-    border: none;
-    border-radius: 10px;
-    background: #2563eb;
-    color: white;
-    cursor: pointer;
+    padding:12px 20px;
+    border:0;
+    border-radius:10px;
+    background:#2563eb;
+    color:white;
 }
 </style>
 
@@ -53,21 +60,27 @@ button {
 🚀 ApexTrader AI
 </div>
 
+
 <div class="card">
 <h2>Bot Status</h2>
 <p class="status">Loading...</p>
 </div>
 
+
 <div class="card">
 <h2>Market</h2>
 <p>BTC/USDT</p>
-<p id="price">Price: Loading...</p>
+<p class="price" id="price">Loading...</p>
 </div>
+
 
 <div class="card">
 <h2>Trading Signal</h2>
-<p id="signal">Waiting...</p>
+<p class="signal" id="signal">
+Waiting...
+</p>
 </div>
+
 
 <div class="card">
 <h2>Control</h2>
@@ -75,23 +88,38 @@ button {
 <button>STOP BOT</button>
 </div>
 
+
 <script>
+
 async function updateStatus(){
 
-    const response = await fetch("/status");
-    const data = await response.json();
+const response = await fetch("/status");
 
-    document.querySelector(".status").innerHTML = data.bot;
-    document.getElementById("price").innerHTML =
-    "Price: " + data.price;
+const data = await response.json();
 
-    document.getElementById("signal").innerHTML =
-    data.signal;
+
+document.querySelector(".status").innerHTML =
+"🟢 " + data.bot;
+
+
+document.getElementById("price").innerHTML =
+"$ " + Number(data.price).toLocaleString();
+
+
+document.getElementById("signal").innerHTML =
+"📊 " + data.signal;
+
+
 }
 
+
 updateStatus();
+
 setInterval(updateStatus,5000);
+
+
 </script>
+
 
 </body>
 </html>
