@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ApexTrader AI</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+}
+
+.header {
+    background: #111827;
+    padding: 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.card {
+    background: #1e293b;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.status {
+    color: #22c55e;
+    font-size: 20px;
+}
+
+button {
+    padding: 12px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+🚀 ApexTrader AI
+</div>
+
+<div class="card">
+<h2>Bot Status</h2>
+<p class="status">Loading...</p>
+</div>
+
+<div class="card">
+<h2>Market</h2>
+<p>BTC/USDT</p>
+<p id="price">Price: Loading...</p>
+</div>
+
+<div class="card">
+<h2>Trading Signal</h2>
+<p id="signal">Waiting...</p>
+</div>
+
+<div class="card">
+<h2>Control</h2>
+<button>START BOT</button>
+<button>STOP BOT</button>
+</div>
+
+<script>
+async function updateStatus(){
+
+    const response = await fetch("/status");
+    const data = await response.json();
+
+    document.querySelector(".status").innerHTML = data.bot;
+    document.getElementById("price").innerHTML =
+    "Price: " + data.price;
+
+    document.getElementById("signal").innerHTML =
+    data.signal;
+}
+
+updateStatus();
+setInterval(updateStatus,5000);
+</script>
+
+</body>
+</html>
